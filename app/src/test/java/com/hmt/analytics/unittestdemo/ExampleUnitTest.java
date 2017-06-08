@@ -1,11 +1,9 @@
 package com.hmt.analytics.unittestdemo;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.atLeast;
@@ -58,13 +56,20 @@ public class ExampleUnitTest {
         verify(mockedList).clear();
     }
 
+    /**
+     * mockito 测试是否调用
+     */
     @Test
-    @Ignore("not implemented yet")
-    public void testMock2() {
-        ArrayList mockedList = mock(ArrayList.class);
-        when(mockedList.get(0)).thenReturn("1");
-        String str = (String) mockedList.get(0);
-        verify(mockedList).get(0);
+    public void testWhen() {
+//        LoginPresent loginPresent = mock(LoginPresent.class);
+        LoginPresent loginPresent = new LoginPresent();
+        VerifyPsw verifyPsw = mock(VerifyPsw.class);
+        loginPresent.setVerifyPsw(verifyPsw);
+        loginPresent.login("1", "0");
+        when(verifyPsw.verifyValid(Mockito.anyString(), Mockito.anyString()))
+                .thenReturn(true);
+//        verify(loginPresent).login("1", "0");
+        verify(verifyPsw).verifyValid("1", "0");
     }
 
 
