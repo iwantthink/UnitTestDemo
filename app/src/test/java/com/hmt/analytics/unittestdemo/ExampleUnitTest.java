@@ -3,12 +3,16 @@ package com.hmt.analytics.unittestdemo;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.atMost;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -41,18 +45,16 @@ public class ExampleUnitTest {
 
 
     @Test
-    public void addition_isCorrect() throws Exception {
-//        assertEquals(4, 2 + 2);
-        assertEquals("wrong number", 4, 2 + 2);
-    }
-
-    @Test
     public void testMock() {
         List mockedList = mock(List.class);
         mockedList.add("one");
+//        mockedList.add("one");
         mockedList.clear();
-        verify(mockedList).add("one");
-//       verify(mockedList).add("two");
+        verify(mockedList, times(2)).add("one");//验证调用次数
+        verify(mockedList, atLeast(1)).add("one");//最小
+        verify(mockedList, atMost(2)).add("one");//最多
+        verify(mockedList, never()).add("two");//从不
+        verify(mockedList).add(Mockito.anyString());//表示任意参数 调用一次就行
         verify(mockedList).clear();
     }
 
